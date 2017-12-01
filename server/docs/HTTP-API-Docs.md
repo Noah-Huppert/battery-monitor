@@ -8,7 +8,7 @@ The HTTP API provides all core functionality for the Battery Monitor platform.
 The HTTP API is provided by an Golang server.  
 
 It follows the fairly standard RESTful pattern. Where the API provides 
-resources which actions can be invoked on.  
+resources, which actions can be invoked on.  
 
 The HTTP API has the following sub-systems:
 
