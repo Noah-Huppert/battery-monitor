@@ -24,7 +24,3 @@ The HTTP API is the primary interface for managing data in the battery monitor
 platform.  
 
 The server itself is written in Golang. 
-
-# Authentication
-API clients must authenticate using JSON Web Tokens (JWTs). Clients can 
-retrieve a JWT by exchanging 
