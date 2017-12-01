@@ -1,6 +1,5 @@
 # Battery Monitor
-Battery Monitor records device battery levels. It can be used to analyse and 
-compare different device's battery life.
+Battery Monitor records device battery levels. 
 
 # Table Of Contents
 - [Overview](#overview)
