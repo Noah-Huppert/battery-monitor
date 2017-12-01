@@ -1,6 +1,6 @@
 package models
 
-// Device holds information about phones user's own
+// Device holds information about phones a user owns
 type Device struct {
 	gorm.Model
 

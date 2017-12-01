@@ -42,10 +42,13 @@ following claims:
 
 - `iss` (String): Issuer of token, will always be 
                   `github.com/Noah-Huppert/battery-monitor/server`
-- `sub` (String): Who JWT refers to. Will be the ID of the device the auth token 
-		  was obtained for
+- `sub` (String): Who JWT refers to. Will be the ID of the device followed by 
+		  the ID of the user the auth token was obtained for. Separated 
+		  by a colon
 - `aud` (String): Who can receive the token, will always be 
                   `github.com/Noah-Huppert/battery-monitor/server`
+- `iat` (Date Time): When token was issued
+- `jti` (String): ID of token, used revoke specific tokens
 
 # Providing Auth Tokens
 Auth tokens must be provided in all requests, with a few exceptions.  
