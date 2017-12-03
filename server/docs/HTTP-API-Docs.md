@@ -15,3 +15,4 @@ The HTTP API has the following sub-systems:
 - [Authentication](/server/docs/Authentication.md)
 - [Models](/server/docs/Models.md)
 - [Endpoints](/server/docs/Endpoints.md)
+- [Errors](/server/docs/Errors.md)
