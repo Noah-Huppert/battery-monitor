@@ -7,7 +7,7 @@ Endpoints are how clients invoke API actions.
 - [Responses](#responses)
 	- [Errors](#errors)
 
-# Endpoints
+# Overview
 The HTTP API is accessed completely via endpoints.  
 
 Endpoints are categorized by the model they perform actions on. And can be 
