@@ -5,7 +5,6 @@ Endpoints are how clients invoke API actions.
 - [Overview](#overview)
 - [Requests](#requests)
 - [Responses](#responses)
-	- [Errors](#errors)
 
 # Overview
 The HTTP API is accessed completely via endpoints.  

@@ -1,5 +1,6 @@
 # Auth Tokens
-The auth tokens endpoints create and manage access to the HTTP API.
+The [Auth Tokens](/server/docs/models/Auth-Token.md) endpoints create and 
+manage access to the HTTP API.
 
 # Table Of Contents
 - [Overview](#overview)
@@ -8,10 +9,13 @@ The auth tokens endpoints create and manage access to the HTTP API.
 - [Delete](#delete)
 
 # Overview
-The auth token endpoints are available at the `/api/v1/auth_tokens/` URL.  
+The [Auth Token](/server/docs/models/Auth-Token.md) endpoints are available 
+at the `/api/v1/auth_tokens/` URL.  
 
 # Create
 The create endpoint issues a new auth token.  
+
+Located at the `/api/v1/auth_tokens/` URL.
 
 ## Request
 Requires authentication.  
