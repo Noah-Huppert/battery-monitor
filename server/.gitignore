@@ -1,2 +1,5 @@
 # Golang dependencies
 vendor/
+
+# Application
+config.toml
