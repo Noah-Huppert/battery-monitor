@@ -1,9 +1,7 @@
 package main
 
-import (
-	"github.com/Noah-Huppert/battery-monitor/server/models"
-)
+import "fmt"
 
 func main() {
-	reading := models.BatteryReading{gorm.}
+	fmt.Println("Hello world")
 }

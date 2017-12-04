@@ -9,7 +9,8 @@ The auth token model contains the following fields:
 
 - `user_id` (uint): The ID of the user to which the auth token authenticates
 - `device_id` (uint): The ID of the device which the auth token authenticates
-- `issued_at` (Time): Date and time authentication token was issued
+- `revoked` (Boolean): Specifies if the auth token is revoked, defaults to 
+		       false, true if the auth token is revoked
 
 # Relationships
 The user the auth token belongs to is specified via the `user_id` field. 
