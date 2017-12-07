@@ -6,3 +6,4 @@ Db=battery-monitor-dev
 
 [Auth]
 SigningSecret=weaksecret
+Identity=github.com/Noah-Huppert/battery-monitor/server

@@ -26,6 +26,11 @@ func (c Config) Verify() error {
 		return fmt.Errorf("error verifying db config: %s", err.Error())
 	}
 
+	// Check AuthConfig
+	if err := c.Auth.Verify(); err != nil {
+		return fmt.Errorf("error verifying auth config: %s", err.Error())
+	}
+
 	// All good
 	return nil
 }
@@ -86,10 +91,33 @@ func (c DbConfig) Verify() error {
 type AuthConfig struct {
 	// SigningSecret holds the secret value used to sign JWT tokens
 	SigningSecret string
+
+	// Identity holds the value used to identify the battery monitor server
+	// in URIs
+	Identity string
 }
 
 func (c AuthConfig) Verify() error {
-	return len(c.SigningSecret) == 0
+	empty := []string{}
+
+	// SigningSecret, if empty fail
+	if len(c.SigningSecret) == 0 {
+		empty = append(empty, "SigningSecret")
+	}
+
+	// Identity, if empty fail
+	if len(c.Identity) == 0 {
+		empty = append(empty, "Identity")
+	}
+
+	// If any empty
+	if len(empty) > 0 {
+		return fmt.Errorf("the auth config fields: %s, were empty",
+			strings.Join(empty, ","))
+	}
+
+	// All good
+	return nil
 }
 
 // TODO Make .Verify into an interface? It's a pattern now

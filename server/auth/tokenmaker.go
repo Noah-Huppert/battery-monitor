@@ -46,7 +46,16 @@ func NewTokenMaker(config Config) (*TokenMaker, error) {
 		return nil, fmt.Errorf("error getting database connection: %s", err.Error())
 	}
 
-	return DefaultTokenMaker{db}, nil
+	// Get config
+	config, err := config.GetConfig()
+	if err != nil {
+		return nil, fmt.Errorf("error getting configuration: %s", err.Error())
+	}
+
+	return DefaultTokenMaker{
+		db:     db,
+		config: config,
+	}, nil
 }
 
 // MakeToken creates a new JWT and AuthToken model
@@ -69,5 +78,5 @@ func (m DefaultTokenMaker) MakeToken(userID uint, deviceID uint) (AuthToken, str
 	}
 
 	// If device exists and belongs to user
-	// TODO make jwt
+
 }
