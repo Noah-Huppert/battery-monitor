@@ -10,11 +10,11 @@ type Db struct {
 	Db *gorm.DB
 }
 
-// NewDb makes a new Db instance using the app config
+// newDb makes a new Db instance using the app config
 // Returns:
 // - *Db: New db instance
 // - error: If one occurred while connecting to the db, nil on success
-func NewDb() (*Db, error) {
+func newDb() (*Db, error) {
 	// Load config
 	config, err := config.LoadConfig()
 	if err != nil {
@@ -37,4 +37,26 @@ func NewDb() (*Db, error) {
 	dbStruct = Db{db}
 
 	return dbStruct
+}
+
+// once is the thread safe object used ensure a singleton is only initialized 
+// one time
+var sync sync.Once
+
+// instance holds the singleton Db instance
+var db *Db
+
+// GetDb returns the singleton instance of the Db struct.
+// Returns:
+//	- *Db: Singleton instance of Db
+//	- error: If one occurred while initializing the first instance of the 
+//		 singleton
+func GetDb() (*Db, error) {
+	once.Do(func() {
+		db, err := 
+		// TODO init singleton here
+	})
+
+	// TODO return singleton here
+	// TODO convert to use this method
 }

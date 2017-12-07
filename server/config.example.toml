@@ -3,3 +3,6 @@ Host=postgres.local
 User=dev
 Password=password
 Db=battery-monitor-dev
+
+[Auth]
+SigningSecret=weaksecret

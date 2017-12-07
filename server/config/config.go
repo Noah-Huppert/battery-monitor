@@ -11,7 +11,11 @@ import (
 
 // Config holds the settings for the application
 type Config struct {
+	// Db holds database connection related configuration
 	Db DbConfig
+
+	// Auth holds HTTP API authentication configuration
+	Auth AuthConfig
 }
 
 // Verify ensures all config values are valid, it returns an error if one is
@@ -79,6 +83,14 @@ func (c DbConfig) Verify() error {
 	return nil
 }
 
+type AuthConfig struct {
+	// SigningSecret holds the secret value used to sign JWT tokens
+	SigningSecret string
+}
+
+// TODO AuthConfig.Verify
+// TODO Make .Verify into an interface? It's a pattern now
+
 // PathEnvKey is the name of the environment variable which can be used to
 // modify which file LoadConfig loads.
 const PathEnvKey string = "APP_CONFIG_PATH"
@@ -131,3 +143,5 @@ func LoadConfig() (Config, error) {
 	// All done, return
 	return config, nil
 }
+
+// TODO Make Config into a singleton

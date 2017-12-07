@@ -1,5 +1,7 @@
 package auth
 
+import "github.com/dgrijalva/jwt-go"
+
 // TokenMaker is an interface which wraps the method used to generate auth
 // tokens
 type TokenMaker interface {
@@ -23,6 +25,9 @@ type TokenMaker interface {
 type DefaultTokenMaker struct {
 	// db used to query persistence layer
 	db *db.Db
+
+	// config holds application configuration values
+	config Config
 }
 
 // NewTokenMaker creates a new Token Maker with the default
@@ -33,7 +38,8 @@ type DefaultTokenMaker struct {
 //
 // Returns:
 // - TokenMaker: Default implementation of TokenMaker
-func NewTokenMaker(db *db.Db) TokenMaker {
+func NewTokenMaker(config Config) TokenMaker {
+	// Make db connection
 	return DefaultTokenMaker{db}
 }
 
