@@ -38,9 +38,15 @@ type DefaultTokenMaker struct {
 //
 // Returns:
 // - TokenMaker: Default implementation of TokenMaker
-func NewTokenMaker(config Config) TokenMaker {
-	// Make db connection
-	return DefaultTokenMaker{db}
+// - error: If one occurs while getting the db connection
+func NewTokenMaker(config Config) (*TokenMaker, error) {
+	// Get db connection
+	db, err := db.GetDb()
+	if err != nil {
+		return nil, fmt.Errorf("error getting database connection: %s", err.Error())
+	}
+
+	return DefaultTokenMaker{db}, nil
 }
 
 // MakeToken creates a new JWT and AuthToken model

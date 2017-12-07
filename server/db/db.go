@@ -15,8 +15,8 @@ type Db struct {
 // - *Db: New db instance
 // - error: If one occurred while connecting to the db, nil on success
 func newDb() (*Db, error) {
-	// Load config
-	config, err := config.LoadConfig()
+	// Get config
+	config, err := config.GetConfig()
 	if err != nil {
 		return nil, fmt.Errorf("error loading app config: %s", err.Error())
 	}
@@ -39,7 +39,7 @@ func newDb() (*Db, error) {
 	return dbStruct
 }
 
-// once is the thread safe object used ensure a singleton is only initialized 
+// once is the thread safe object used ensure a singleton is only initialized
 // one time
 var sync sync.Once
 
@@ -49,14 +49,15 @@ var db *Db
 // GetDb returns the singleton instance of the Db struct.
 // Returns:
 //	- *Db: Singleton instance of Db
-//	- error: If one occurred while initializing the first instance of the 
+//	- error: If one occurred while initializing the first instance of the
 //		 singleton
 func GetDb() (*Db, error) {
 	once.Do(func() {
-		db, err := 
-		// TODO init singleton here
+		db, err := newDb()
+		if err != nil {
+			return nil, fmt.Errorf("error creating db instance: %s", err.Error())
+		}
 	})
 
-	// TODO return singleton here
-	// TODO convert to use this method
+	return db
 }

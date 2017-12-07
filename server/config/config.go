@@ -88,7 +88,10 @@ type AuthConfig struct {
 	SigningSecret string
 }
 
-// TODO AuthConfig.Verify
+func (c AuthConfig) Verify() error {
+	return len(c.SigningSecret) == 0
+}
+
 // TODO Make .Verify into an interface? It's a pattern now
 
 // PathEnvKey is the name of the environment variable which can be used to
@@ -102,7 +105,11 @@ const PathEnvKey string = "APP_CONFIG_PATH"
 // By default it will load from the "config.toml" file in the working
 // directory. This can be modified by setting the APP_CONFIG_PATH environment
 // variable.
-func LoadConfig() (Config, error) {
+//
+// Returns:
+// - *Config: Pointer to config object
+// - error: If one occurs retrieving or parsing configuration
+func loadConfig() (*Config, error) {
 	var config Config
 	var filePath string
 
@@ -144,4 +151,25 @@ func LoadConfig() (Config, error) {
 	return config, nil
 }
 
-// TODO Make Config into a singleton
+// config is the singleton instance that GetConfig returns
+var config *Config
+
+// once is the multi threading object used to ensure config is only initialized
+// one time
+var once sync.Once
+
+// GetConfig returns the singleton config instance. And creates one if does
+// exist already.
+// Returns:
+// - *Config: Config singleton instance
+// - error: If one occurs while retrieving configuration
+func GetConfig() (*Config, error) {
+	once.Do(func() {
+		config, err := loadConfig()
+		if err != nil {
+			return nil, fmt.Errorf("error retrieving configuration: %s", err.Error())
+		}
+	})
+
+	return config, nil
+}
