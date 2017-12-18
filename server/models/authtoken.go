@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 // Auth Token stores details about HTTP API keys issued to users
 type AuthToken struct {
 	Base
@@ -20,4 +22,29 @@ type AuthToken struct {
 
 	// Revoked specifies if the auth token is revoked
 	Revoked bool `gorm:"not null"`
+}
+
+// Validate ensures the all model fields are not empty
+func (t AuthToken) Validate() error {
+	// Holds names of empty fields
+	empty := []string{}
+
+	// Check user id
+	if len(t.UserID) == 0 {
+		empty = append(empty, "UserID")
+	}
+
+	// Check device id
+	if len(t.DeviceID) == 0 {
+		empty = append(empty, "DeviceID")
+	}
+
+	// Check if any empty fields
+	if len(empty) != 0 {
+		return fmt.Errorf("the following fields were empty: %s",
+			Strings.join(empty))
+	}
+
+	// All good
+	return nil
 }

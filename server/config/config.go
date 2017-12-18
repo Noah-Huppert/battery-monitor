@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 )
@@ -18,16 +19,16 @@ type Config struct {
 	Auth AuthConfig
 }
 
-// Verify ensures all config values are valid, it returns an error if one is
+// Validate ensures all config values are valid, it returns an error if one is
 // not, and nil on success
-func (c Config) Verify() error {
+func (c Config) Validate() error {
 	// Check DbConfig
-	if err := c.Db.Verify(); err != nil {
+	if err := c.Db.Validate(); err != nil {
 		return fmt.Errorf("error verifying db config: %s", err.Error())
 	}
 
 	// Check AuthConfig
-	if err := c.Auth.Verify(); err != nil {
+	if err := c.Auth.Validate(); err != nil {
 		return fmt.Errorf("error verifying auth config: %s", err.Error())
 	}
 
@@ -50,11 +51,11 @@ type DbConfig struct {
 	Db string
 }
 
-// Verify ensures all db config values are valid. It returns an error if one
+// Validate ensures all db config values are valid. It returns an error if one
 // is not, nil on success.
 //
 // For a value to be valid, it must not be empty
-func (c DbConfig) Verify() error {
+func (c DbConfig) Validate() error {
 	// Holds empty config fields
 	empty := []string{}
 
@@ -97,7 +98,7 @@ type AuthConfig struct {
 	Identity string
 }
 
-func (c AuthConfig) Verify() error {
+func (c AuthConfig) Validate() error {
 	empty := []string{}
 
 	// SigningSecret, if empty fail
@@ -120,8 +121,6 @@ func (c AuthConfig) Verify() error {
 	return nil
 }
 
-// TODO Make .Verify into an interface? It's a pattern now
-
 // PathEnvKey is the name of the environment variable which can be used to
 // modify which file LoadConfig loads.
 const PathEnvKey string = "APP_CONFIG_PATH"
@@ -137,7 +136,7 @@ const PathEnvKey string = "APP_CONFIG_PATH"
 // Returns:
 // - *Config: Pointer to config object
 // - error: If one occurs retrieving or parsing configuration
-func loadConfig() (*Config, error) {
+func LoadConfig() (*Config, error) {
 	var config Config
 	var filePath string
 
@@ -170,34 +169,11 @@ func loadConfig() (*Config, error) {
 		return config, fmt.Errorf("failed to parse toml config file \"%s\": %s", filePath, err.Error())
 	}
 
-	// Verify
-	if err := config.Verify(); err != nil {
+	// Validate
+	if err := config.Validate(); err != nil {
 		return config, fmt.Errof("error verifying config: %s", err.Error())
 	}
 
 	// All done, return
-	return config, nil
-}
-
-// config is the singleton instance that GetConfig returns
-var config *Config
-
-// once is the multi threading object used to ensure config is only initialized
-// one time
-var once sync.Once
-
-// GetConfig returns the singleton config instance. And creates one if does
-// exist already.
-// Returns:
-// - *Config: Config singleton instance
-// - error: If one occurs while retrieving configuration
-func GetConfig() (*Config, error) {
-	once.Do(func() {
-		config, err := loadConfig()
-		if err != nil {
-			return nil, fmt.Errorf("error retrieving configuration: %s", err.Error())
-		}
-	})
-
 	return config, nil
 }

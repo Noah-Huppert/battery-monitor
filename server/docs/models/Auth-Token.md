@@ -12,6 +12,8 @@ The auth token model contains the following fields:
 - `revoked` (Boolean): Specifies if the auth token is revoked, defaults to 
 		       false, true if the auth token is revoked
 
+*Note: The time the token was issued at, is recorded in the [created at field](/server/docs/Models.md#base-model).*
+
 # Relationships
 The user the auth token belongs to is specified via the `user_id` field. 
 Creating a One to One relationship.  

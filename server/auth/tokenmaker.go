@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/dgrijalva/jwt-go"
+import "fmt"
 
 // TokenMaker is an interface which wraps the method used to generate auth
 // tokens
@@ -62,7 +62,6 @@ func NewTokenMaker(config Config) (*TokenMaker, error) {
 func (m DefaultTokenMaker) MakeToken(userID uint, deviceID uint) (AuthToken, string, error) {
 	// Default auth token and jwt values to return on err
 	var AuthToken token
-	var jwt string
 
 	// Check device with id, belonging to specified user, exists
 	var Device *device
@@ -77,6 +76,16 @@ func (m DefaultTokenMaker) MakeToken(userID uint, deviceID uint) (AuthToken, str
 			"belonging to specifeid user exists")
 	}
 
-	// If device exists and belongs to user
+	// If device exists and belongs to user, setup token
+	token.UserID = device.UserID
+	token.DeviceID = device.ID
 
+	// Get JWT string
+	str, err := token.ToJWT(m.config)
+	if err != nil {
+		return token, str, fmt.Errorf("error converting token to jwt string: %s", err.Error())
+	}
+
+	// Done
+	return token, str, nil
 }
