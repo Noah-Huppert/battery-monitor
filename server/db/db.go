@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
@@ -10,11 +12,11 @@ type Db struct {
 	Db *gorm.DB
 }
 
-// newDb makes a new Db instance using the app config
+// NewDb makes a new Db instance using the app config
 // Returns:
 // - *Db: New db instance
 // - error: If one occurred while connecting to the db, nil on success
-func newDb() (*Db, error) {
+func NewDb() (*Db, error) {
 	// Get config
 	config, err := config.GetConfig()
 	if err != nil {
@@ -37,27 +39,4 @@ func newDb() (*Db, error) {
 	dbStruct = Db{db}
 
 	return dbStruct
-}
-
-// once is the thread safe object used ensure a singleton is only initialized
-// one time
-var sync sync.Once
-
-// instance holds the singleton Db instance
-var db *Db
-
-// GetDb returns the singleton instance of the Db struct.
-// Returns:
-//	- *Db: Singleton instance of Db
-//	- error: If one occurred while initializing the first instance of the
-//		 singleton
-func GetDb() (*Db, error) {
-	once.Do(func() {
-		db, err := newDb()
-		if err != nil {
-			return nil, fmt.Errorf("error creating db instance: %s", err.Error())
-		}
-	})
-
-	return db
 }

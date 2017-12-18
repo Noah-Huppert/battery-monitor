@@ -1,7 +1,7 @@
 .PHONY: run imports fmt
 
 # Source files
-SRC=main.go models
+SRC=main.go auth config db models api
 
 # Runs the server
 run:
